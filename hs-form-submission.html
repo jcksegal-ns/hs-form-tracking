@@ -1,0 +1,41 @@
+<script type="text/javascript">
+    // Legacy forms (iFrame postMessage)
+    window.addEventListener("message", function (event) {
+        if (
+            event.data.type === 'hsFormCallback' &&
+            event.data.eventName === 'onFormSubmitted' &&
+            event.origin === document.location.origin
+        ) {
+            var lead = {};
+            var fields = event.data.data;
+            for (var i = 0; i < fields.length; i++) {
+                if (fields[i].name && fields[i].name !== 'hs_context') {
+                    lead[fields[i].name] = fields[i].value;
+                }
+            }
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'form_submit',
+                'hs-form-guid': event.data.id
+            });
+        }
+    });
+
+    // v4 forms
+    window.addEventListener('hs-form-event:on-submission:success', function (event) {
+        var form = HubSpotFormsV4.getFormFromEvent(event);
+        form.getFormFieldValues().then(function (result) {
+            var lead = {};
+            for (var i = 0; i < result.length; i++) {
+                var rawName = result[i].name;
+                var cleanName = rawName.includes('/') ? rawName.split('/')[1] : rawName;
+                lead[cleanName] = result[i].value;
+            }
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'form_submit',
+                'hs-form-guid': event.detail.formId
+            });
+        });
+    });
+</script>
