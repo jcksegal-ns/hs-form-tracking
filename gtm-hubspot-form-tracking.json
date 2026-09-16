@@ -1,0 +1,414 @@
+{
+    "exportFormatVersion": 2,
+    "exportTime": "2026-09-16 12:40:33",
+    "containerVersion": {
+        "path": "accounts/000000000/containers/000000000/versions/0",
+        "accountId": "000000000",
+        "containerId": "000000000",
+        "containerVersionId": "0",
+        "container": {
+            "path": "accounts/000000000/containers/000000000",
+            "accountId": "000000000",
+            "containerId": "000000000",
+            "name": "Your Company Name",
+            "publicId": "GTM-XXXXXXX",
+            "usageContext": [
+                "WEB"
+            ],
+            "fingerprint": "1709151225349",
+            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/000000000/containers/000000000/workspaces?apiLink=container",
+            "features": {
+                "supportUserPermissions": true,
+                "supportEnvironments": true,
+                "supportWorkspaces": true,
+                "supportGtagConfigs": false,
+                "supportBuiltInVariables": true,
+                "supportClients": false,
+                "supportFolders": true,
+                "supportTags": true,
+                "supportTemplates": true,
+                "supportTriggers": true,
+                "supportVariables": true,
+                "supportVersions": true,
+                "supportZones": true,
+                "supportTransformations": false
+            },
+            "tagIds": [
+                "GTM-XXXXXXX"
+            ]
+        },
+        "tag": [
+            {
+                "accountId": "000000000",
+                "containerId": "000000000",
+                "tagId": "31",
+                "name": "HubSpot Form Listener",
+                "type": "html",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "html",
+                        "value": "<script type=\"text/javascript\">\n    // Legacy forms (iFrame postMessage)\n    window.addEventListener(\"message\", function (event) {\n        if (\n            event.data.type === 'hsFormCallback' &&\n            event.data.eventName === 'onFormSubmitted' &&\n            event.origin === document.location.origin\n        ) {\n            var lead = {};\n            var fields = event.data.data;\n            for (var i = 0; i < fields.length; i++) {\n                if (fields[i].name && fields[i].name !== 'hs_context') {\n                    lead[fields[i].name] = fields[i].value;\n                }\n            }\n            window.dataLayer = window.dataLayer || [];\n            window.dataLayer.push({\n                'event': 'form_submit',\n                'hs-form-guid': event.data.id,\n                'email':lead.email,\n                'phone':lead.phone || ''\n            });\n        }\n    });\n\n    // v4 forms\n    window.addEventListener('hs-form-event:on-submission:success', function (event) {\n        var form = HubSpotFormsV4.getFormFromEvent(event);\n        form.getFormFieldValues().then(function (result) {\n            var lead = {};\n            for (var i = 0; i < result.length; i++) {\n                var rawName = result[i].name;\n                var cleanName = rawName.includes('/') ? rawName.split('/')[1] : rawName;\n                lead[cleanName] = result[i].value;\n            }\n            window.dataLayer = window.dataLayer || [];\n            window.dataLayer.push({\n                'event': 'form_submit',\n                'hs-form-guid': event.detail.formId,\n                'email':lead.email,\n                'phone':lead.phone || ''\n            });\n        });\n    });\n</script>"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "supportDocumentWrite",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1781577072307",
+                "firingTriggerId": [
+                    "2147479553"
+                ],
+                "parentFolderId": "92",
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                },
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            }
+        ],
+        "trigger": [
+            {
+                "accountId": "000000000",
+                "containerId": "000000000",
+                "triggerId": "64",
+                "name": "CE - hubspot-form-success",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "form_submit"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1781577072306",
+                "parentFolderId": "92"
+            },
+            {
+                "accountId": "000000000",
+                "containerId": "000000000",
+                "triggerId": "99",
+                "name": "HS Form Submission - Demo Request",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "form_submit"
+                            }
+                        ]
+                    }
+                ],
+                "filter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{HubSpot Form ID Type Lookup}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "Demo Request"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1787685072040",
+                "parentFolderId": "92"
+            },
+            {
+                "accountId": "000000000",
+                "containerId": "000000000",
+                "triggerId": "100",
+                "name": "HS Form Submission - Content Download",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "form_submit"
+                            }
+                        ]
+                    }
+                ],
+                "filter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{HubSpot Form ID Type Lookup}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "Content Download"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1787685105796",
+                "parentFolderId": "92"
+            },
+            {
+                "accountId": "000000000",
+                "containerId": "000000000",
+                "triggerId": "101",
+                "name": "HS Form Submission - Webinar Registration",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "form_submit"
+                            }
+                        ]
+                    }
+                ],
+                "filter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{HubSpot Form ID Type Lookup}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "Webinar Registration"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1787685125476",
+                "parentFolderId": "92"
+            },
+            {
+                "accountId": "000000000",
+                "containerId": "000000000",
+                "triggerId": "102",
+                "name": "HS Form Submission - Contact Us",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "form_submit"
+                            }
+                        ]
+                    }
+                ],
+                "filter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{HubSpot Form ID Type Lookup}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "Contact Us"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1787685138814",
+                "parentFolderId": "92"
+            }
+        ],
+        "variable": [
+            {
+                "accountId": "000000000",
+                "containerId": "000000000",
+                "variableId": "71",
+                "name": "hs-form-guid",
+                "type": "v",
+                "parameter": [
+                    {
+                        "type": "INTEGER",
+                        "key": "dataLayerVersion",
+                        "value": "2"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "name",
+                        "value": "hs-form-guid"
+                    }
+                ],
+                "fingerprint": "1781577156474",
+                "parentFolderId": "94",
+                "formatValue": {}
+            },
+            {
+                "accountId": "000000000",
+                "containerId": "000000000",
+                "variableId": "98",
+                "name": "HubSpot Form ID Type Lookup",
+                "type": "smm",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setDefaultValue",
+                        "value": "true"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "input",
+                        "value": "{{hs-form-guid}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "defaultValue",
+                        "value": "Unknown"
+                    },
+                    {
+                        "type": "LIST",
+                        "key": "map",
+                        "list": [
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "key",
+                                        "value": ""
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "Content Download"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "key",
+                                        "value": ""
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "Webinar Registration"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "key",
+                                        "value": ""
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "Demo Request"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "MAP",
+                                "map": [
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "key",
+                                        "value": ""
+                                    },
+                                    {
+                                        "type": "TEMPLATE",
+                                        "key": "value",
+                                        "value": "Contact Us"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1787684999168",
+                "parentFolderId": "92",
+                "formatValue": {}
+            }
+        ],
+        "folder": [
+            {
+                "accountId": "000000000",
+                "containerId": "000000000",
+                "folderId": "92",
+                "name": "HubSpot Tracking",
+                "fingerprint": "1781577036903"
+            },
+            {
+                "accountId": "000000000",
+                "containerId": "000000000",
+                "folderId": "94",
+                "name": "Enhanced Conversion Tracking",
+                "fingerprint": "1781577154774"
+            }
+        ],
+        "fingerprint": "1789562433089",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/000000000/containers/000000000/versions/0?apiLink=version"
+    }
+}
